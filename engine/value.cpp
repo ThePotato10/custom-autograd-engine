@@ -23,6 +23,9 @@ string Value::toString() {
         for (int i = 0; i < parents.size(); ++i) {
             s += parents.at(i)->name + ", ";
         }
+
+        s.erase(s.length() - 2);
+        s += "\n";
     } 
 
     return s;

@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 
+// forward declaration to prevent recursive build bugs
 class Value;
 
 // Defines a single global store for all value nodes to make memory management easier
