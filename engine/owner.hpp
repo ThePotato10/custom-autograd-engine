@@ -12,5 +12,5 @@ class Value;
 class Owner {
     public:
         std::vector<std::unique_ptr<Value>> store;
-        Value* create(double v, std::string n);
+        Value& create(double v, std::string n);
 };

@@ -12,7 +12,8 @@ Value::Value(double v, string n, Owner* ownerRef) :
     name(n), 
     gradient(0.0), 
     operation(Operation::LEAF), 
-    globalOwner(ownerRef) {}
+    globalOwner(ownerRef) 
+{}
 
 string Value::toString() {
     string s = "Value " + name + "\ndata: " + to_string(value) + " | " "grad: " + to_string(gradient) + "\n";
@@ -31,34 +32,34 @@ string Value::toString() {
     return s;
 }
 
-Value* Value::operator+(Value& other) {
-    Value* sum = globalOwner->create(this->value + other.value, "(" + this->name + " + " + other.name + ")");
+Value& Value::operator+(Value& other) {
+    Value* sum = &globalOwner->create(this->value + other.value, "(" + this->name + " + " + other.name + ")");
     sum->parents = vector<Value*>{this, &other};
     sum->operation = Operation::ADD;
 
-    return sum;
+    return *sum;
 }
 
-Value* Value::operator*(Value& other) {
-    Value* sum = globalOwner->create(this->value * other.value, "(" + this->name + " * " + other.name + ")");
+Value& Value::operator*(Value& other) {
+    Value* sum = &globalOwner->create(this->value * other.value, "(" + this->name + " * " + other.name + ")");
     sum->parents = vector<Value*>{this, &other};
     sum->operation = Operation::MUL;
 
-    return sum;
+    return *sum;
 }
 
-Value* Value::operator-(Value& other) {
-    Value* sum = globalOwner->create(this->value - other.value, "(" + this->name + " - " + other.name + ")");
+Value& Value::operator-(Value& other) {
+    Value* sum = &globalOwner->create(this->value - other.value, "(" + this->name + " - " + other.name + ")");
     sum->parents = vector<Value*>{this, &other};
     sum->operation = Operation::SUB;
 
-    return sum;
+    return *sum;
 }
 
-Value* Value::operator/(Value& other) {
-    Value* sum = globalOwner->create(this->value / other.value, "(" + this->name + " / " + other.name + ")");
+Value& Value::operator/(Value& other) {
+    Value* sum = &globalOwner->create(this->value / other.value, "(" + this->name + " / " + other.name + ")");
     sum->parents = vector<Value*>{this, &other};
     sum->operation = Operation::DIV;
 
-    return sum;
+    return *sum;
 }

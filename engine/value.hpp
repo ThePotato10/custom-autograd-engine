@@ -22,8 +22,8 @@ class Value {
         Value(double v, std::string n, Owner* ownerRef);
         std::string toString();
 
-        Value* operator+(Value& other);
-        Value* operator*(Value& other);
-        Value* operator-(Value& other);
-        Value* operator/(Value& other);
+        Value& operator+(Value& other);
+        Value& operator*(Value& other);
+        Value& operator-(Value& other);
+        Value& operator/(Value& other);
 };
