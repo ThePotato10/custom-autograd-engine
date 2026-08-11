@@ -2,6 +2,7 @@
 
 #include "owner.hpp"
 #include "value.hpp"
+#include "traversal.hpp"
 
 using namespace std;
 
@@ -14,6 +15,17 @@ int main() {
     Value& c = a + b;
     Value& d = a * b;
 
+    c.name = "c";
+    d.name = "d";
+
     cout << c.toString();
     cout << d.toString();
+
+    vector<Value*> traversal = buildTraversal(d);
+
+    cout << "Traversal: \n";
+
+    for (size_t i = 0; i < traversal.size(); ++i) {
+        cout << traversal.at(i)->name << " ";
+    }
 }

@@ -21,7 +21,7 @@ string Value::toString() {
     if (parents.size() > 0) {
         s += "Parents: ";
         
-        for (int i = 0; i < parents.size(); ++i) {
+        for (size_t i = 0; i < parents.size(); ++i) {
             s += parents.at(i)->name + ", ";
         }
 
