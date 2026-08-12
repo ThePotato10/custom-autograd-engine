@@ -124,6 +124,5 @@ void Value::backprop() {
     for (size_t i = 0; i < traversal.size(); ++i) {
         Value* curr = traversal.at(i);
         updateGradient(traversal.at(i));
-        cout << curr->name << " | grad: " << curr->gradient << endl;
     }
 }

@@ -12,12 +12,12 @@ enum Operation {
 
 class Value {
     public:
+        double              value;
+        std::string         name;
+        double              gradient;
+        Operation           operation;
+        Owner*              globalOwner;
         std::vector<Value*> parents;
-        Operation operation;
-        Owner* globalOwner;
-        double value;
-        double gradient;
-        std::string name;
 
         Value(double v, std::string n, Owner* ownerRef);
         std::string toString();

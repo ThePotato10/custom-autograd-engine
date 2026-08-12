@@ -1,8 +1,3 @@
-// Any idiot can implement micrograd
-// Only special idiots implement it in cpp
-// Any only really special idiots implement it in cpp without using shared_ptr
-// I'm that kind of idiot
-
 #include <vector>
 #include <memory>
 

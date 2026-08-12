@@ -10,9 +10,10 @@ int main() {
     Owner store = Owner();
 
     Value& a = store.create(2.0, "a");
-    Value& b = a.exp(2);
+    Value& b = store.create(4.0, "b");
+    Value& c = (a * b).exp(2);
 
-    cout << b.name << " Value: " << b.value;
+    cout << c.name << " Value: " << c.value;
 
     return 0;
 }
