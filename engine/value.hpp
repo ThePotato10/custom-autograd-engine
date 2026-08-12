@@ -26,4 +26,6 @@ class Value {
         Value& operator*(Value& other);
         Value& operator-(Value& other);
         Value& operator/(Value& other);
+
+        void backprop();
 };

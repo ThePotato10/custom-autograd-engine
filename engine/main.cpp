@@ -9,23 +9,18 @@ using namespace std;
 int main() {
     Owner store = Owner();
 
-    Value& a = store.create(1.0, "a");
-    Value& b = store.create(2.0, "b");
+    Value& a = store.create(0.5, "a(L-1)");
+    Value& w = store.create(0.4, "w(L)");
+    Value& b = store.create(0.2, "b(L)");
+    Value& y = store.create(0.6, "y");
 
-    Value& c = a + b;
-    Value& d = a * b;
+    Value& z = (w * a) + b;
+    Value& c = z - y;
 
+    z.name = "z";
     c.name = "c";
-    d.name = "d";
 
-    cout << c.toString();
-    cout << d.toString();
+    c.backprop();
 
-    vector<Value*> traversal = buildTraversal(d);
-
-    cout << "Traversal: \n";
-
-    for (size_t i = 0; i < traversal.size(); ++i) {
-        cout << traversal.at(i)->name << " ";
-    }
+    return 0;
 }
