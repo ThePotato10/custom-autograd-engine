@@ -88,18 +88,18 @@ void testBackward() {
         runCheck("DIV: c = a/b", ok, err, passed, total);
         std::cout << std::endl;
     }
-    /*{   // POWER: c = a^3, dc/da = 3*a^2. Catches an off-by-one in the
+    {   // POWER: c = a^3, dc/da = 3*a^2. Catches an off-by-one in the
         // exponent rule (e.g. forgetting to subtract 1, or using a^n
         // instead of n*a^(n-1)).
         Owner store;
         Value& a = store.create(2.0, "a");
-        Value& c = a.pow(3.0);           
+        Value& c = a.exp(3.0);           
         c.backprop();
 
         bool ok = checkGradient("a", a, 3.0 * std::pow(2.0, 2.0), err);
         runCheck("POWER: c = a^3", ok, err, passed, total);
         std::cout << std::endl;
-    }*/
+    }
     {   // Straight-line chain: gradient must actually propagate through an
         // intermediate node, not just from root's direct parents. Catches a
         // backward pass that stops after one layer instead of continuing to
