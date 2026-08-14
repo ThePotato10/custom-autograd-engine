@@ -122,7 +122,6 @@ void Value::backprop() {
     traversal.at(0)->gradient = 1.0; // First gradient is always set to 1 (derivative of a variable wrt itself is always 1)
 
     for (size_t i = 0; i < traversal.size(); ++i) {
-        Value* curr = traversal.at(i);
         updateGradient(traversal.at(i));
     }
 }

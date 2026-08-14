@@ -29,8 +29,8 @@ void visit(Value* entry, vector<Value*>& visited, vector<Value*>& output) {
 
 vector<Value*> buildTraversal(Value& entry) {
     // These need to be passed by reference to the visit function so that they are consistent across recursion branches
-    vector<Value*>& traversal = *(new vector<Value*>{}); 
-    vector<Value*>& visited   = *(new vector<Value*>{});
+    vector<Value*> traversal = vector<Value*>{}; 
+    vector<Value*> visited   = vector<Value*>{};
 
     visit(&entry, visited, traversal);
 
