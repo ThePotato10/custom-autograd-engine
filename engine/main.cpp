@@ -9,11 +9,19 @@ using namespace std;
 int main() {
     Owner store = Owner();
 
-    Value& a = store.create(2.0, "a");
-    Value& b = store.create(4.0, "b");
-    Value& c = (a * b).exp(2);
+    Value& a1 = store.create(0.7,   "a1");
+    Value& w1 = store.create(0.55,  "w1");
+    Value& b1 = store.create(-0.32, "b1");
 
-    cout << c.name << " Value: " << c.value;
+    Value& a2 = store.create(0.3,  "a2");
+    Value& w2 = store.create(-0.4, "w2");
+    Value& b2 = store.create(0.82, "b2");
+
+    Value& z = (((w1 * a1) + b1) + ((w2 * a2) + b2)).relu();
+
+    cout << z.name << " Value: " << z.value << endl;
+
+    z.backprop();
 
     return 0;
 }

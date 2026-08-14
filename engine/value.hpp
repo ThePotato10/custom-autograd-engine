@@ -7,7 +7,7 @@
 // LEAF, ADD, MUL, SUB, DIV, POWER
 // LEAF is essentially the null option, used to prevent actual nullptr bugs when traversing for backprop
 enum Operation {
-    LEAF, ADD, MUL, SUB, DIV, POWER
+    LEAF, ADD, MUL, SUB, DIV, POWER, RELU
 };
 
 class Value {
@@ -29,7 +29,7 @@ class Value {
         Value& exp(double x);
 
         // Activation functions
-        
+        Value& relu();
 
         void backprop();
 };

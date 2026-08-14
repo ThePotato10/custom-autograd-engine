@@ -81,8 +81,18 @@ Value& Value::exp(double x) {
     return *sum;
 }
 
+Value& Value::relu() {
+    double reluVal = (this->value > 0) ? this->value : 0;
+    
+    Value* sum = &globalOwner->create(reluVal, "ReLU(" + this->name + ")");
+    sum->parents = vector<Value*>{this};
+    sum->operation = Operation::RELU;
+
+    return *sum;
+}
+
 void updateGradient(Value* v) {
-    if (v->parents.size() > 0) { // Otherwise would segfault on leaf nodes, since v->parents[i] is null
+    if (v->parents.size() > 1) { // Otherwise would segfault on leaf/activation function Values, since v->parents[1] is null
         Value* first  = v->parents[0];
         Value* second = v->parents[1];
         double localGradient = v->gradient;
@@ -109,8 +119,17 @@ void updateGradient(Value* v) {
                 first->gradient += second->value * pow(first->value, (second->value - 1)) * localGradient;
                 // Don't need to touch the second gradient because the second Value is just a placeholder for traversal, doesn't actually exist as a variable
                 break;
+            case Operation::RELU:
+                break;
             case Operation::LEAF: // Entirely redundant bc of the check above, but makes the compiler happy
                 break;
+        }
+    } else if (v->parents.size() > 0) { // For activation function Values, since parents[0] is valid but parents[1] is null
+        Value* first = v->parents[0];
+        double localGradient = v->gradient;
+
+        if (v->operation == Operation::RELU) {
+            first->gradient += (first->value > 0 ? 1 : 0) * localGradient;
         }
     }
 }
