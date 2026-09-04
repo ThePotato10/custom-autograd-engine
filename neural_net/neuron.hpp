@@ -1,3 +1,5 @@
+#pragma once
+
 #include<vector>
 
 #include "../engine/value.hpp"
@@ -14,5 +16,6 @@ class Neuron {
 
         Neuron(int numInputs, Owner* owner);
 
+        std::vector<Value*> parameters();
         Value& forward(std::vector<Value*> prev);
 };

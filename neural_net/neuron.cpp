@@ -1,4 +1,5 @@
 #include<vector>
+#include<random>
 
 #include "neuron.hpp"
 
@@ -8,7 +9,12 @@
 using namespace std;
 
 double generateRandomWeight() {
+    // Straight from ChatGPT
+    static random_device rd;
+    static mt19937 gen(rd());
+    static uniform_real_distribution<double> dist(-1.0, 1.0);
 
+    return dist(gen);
 }
 
 Neuron::Neuron(int numInputs, Owner* owner) : globalOwner(owner) {
@@ -26,9 +32,19 @@ Neuron::Neuron(int numInputs, Owner* owner) : globalOwner(owner) {
     bias = &owner->create(generateRandomWeight(), "generic_bias");
 }
 
+// Extracts the weights and bias from an individual neuron, base case for extracting all parameters from network
+// Used for zeroGradients and updating weights/biases
+vector<Value*> Neuron::parameters() {
+    vector<Value*> params = weights;
+    params.push_back(bias);
+
+    return params;
+}
+
 Value& Neuron::forward(vector<Value*> prev) {
     // Propagate error if inputs don't match size of weights
-    if (prev.size() != weights.size()) return globalOwner->create(-1, "err");
+    // The affected parts of the network will zero out, indicating something went wrong
+    if (prev.size() != weights.size()) return globalOwner->create(0, "err");
 
     Value* out = bias;
 
