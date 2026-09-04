@@ -21,8 +21,22 @@ Network::Network(int numInputs, vector<int> layerSizes, Owner* owner) {
     }
 }
 
-vector<Value*> Network::forward() {
-    
+// Resets gradients between training passes to prevent accumulation bugs
+void Network::zeroGradients() {
+    vector<Value*> params = parameters();
+
+    for (auto p : params) p->gradient = 0.0;
+}
+
+vector<Value*> Network::forward(vector<Value*> entry) {
+    // The core of the forward propagation logic:
+    // Each layer receives a vector of values, passes that vector to the next layer. 
+    // Shape logic (number of values returned) is handled internally, not addressed here
+    for (auto& l : layers) {
+        entry = l.forward(entry);
+    }
+
+    return entry;
 }
 
 vector<Value*> Network::parameters() {

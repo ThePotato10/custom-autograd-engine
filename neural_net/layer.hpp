@@ -13,5 +13,5 @@ class Layer {
         Layer(int numInputs, int numOutputs, Owner* owner);
 
         std::vector<Value*> parameters();
-        std::vector<Value*> forward(std::vector<Value*>& inputs);
+        std::vector<Value*> forward(std::vector<Value*> inputs);
 };

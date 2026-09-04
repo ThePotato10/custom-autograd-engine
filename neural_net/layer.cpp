@@ -23,3 +23,11 @@ vector<Value*> Layer::parameters() {
 
     return params;
 }
+
+vector<Value*> Layer::forward(vector<Value*> inputs) {
+    vector<Value*> layerOut;
+
+    for (auto& neuron : neurons) layerOut.push_back(&neuron.forward(inputs));
+
+    return layerOut;
+}

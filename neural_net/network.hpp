@@ -15,5 +15,5 @@ class Network {
 
         void zeroGradients();
         std::vector<Value*> parameters();
-        std::vector<Value*> forward();
+        std::vector<Value*> forward(std::vector<Value*> entry);
 };
