@@ -2,8 +2,8 @@
 
 #include<vector>
 
-#include "../engine/value.hpp"
-#include "../engine/owner.hpp"
+#include "../../engine/value.hpp"
+#include "../../engine/owner.hpp"
 
 class Neuron {
     // Each Neuron controls its own weights and biases, so these should be private

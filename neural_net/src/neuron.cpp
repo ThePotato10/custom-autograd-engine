@@ -4,8 +4,8 @@
 
 #include "neuron.hpp"
 
-#include "../engine/value.hpp"
-#include "../engine/owner.hpp"
+#include "../../engine/value.hpp"
+#include "../../engine/owner.hpp"
 
 using namespace std;
 

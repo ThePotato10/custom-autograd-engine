@@ -2,8 +2,8 @@
 #include<iostream>
 
 #include "network.hpp"
-#include "../engine/owner.hpp"
-#include "../engine/value.hpp"
+#include "../../engine/owner.hpp"
+#include "../../engine/value.hpp"
 
 using namespace std;
 

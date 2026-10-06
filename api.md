@@ -1,0 +1,1 @@
+When declaring your network, the first parameter is the number of inputs your network takes. The second parameter is the size of internal and output layers. For example, train()

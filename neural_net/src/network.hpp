@@ -3,8 +3,8 @@
 #include<vector>
 
 #include "layer.hpp"
-#include "../engine/owner.hpp"
-#include "../engine/value.hpp"
+#include "../../engine/owner.hpp"
+#include "../../engine/value.hpp"
 
 
 class Network {

@@ -3,44 +3,52 @@
 CXX := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -g
 
-SRC_DIR := engine
+ENGINE_DIR := engine
 TEST_DIR := engine/test
 NN_DIR := neural_net
 BUILD_DIR := build
 
-NN_TARGET := neural_net_bin
+TARGET := $(BUILD_DIR)/autograd
 
-# All engine sources -- the reusable "library" part, shared across the
-# tests and the neural net binary.
-LIB_SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+# main.cpp does `#include "api/api.hpp"`, and api/ lives under neural_net/,
+# so neural_net/ goes on the include path.
+INCLUDES := -I$(NN_DIR)
 
-NN_SRCS := $(wildcard $(NN_DIR)/*.cpp)
+# The engine on its own -- the only thing the engine tests link against.
+ENGINE_SRCS := $(wildcard $(ENGINE_DIR)/*.cpp)
 
-.PHONY: all clean run test nn run-nn
+# Neural net + training API. neural_net/src/main.cpp is a leftover entrypoint,
+# excluded so it doesn't collide with the real main() in ./main.cpp.
+NN_SRCS := $(filter-out $(NN_DIR)/src/main.cpp, \
+             $(wildcard $(NN_DIR)/src/*.cpp) $(wildcard $(NN_DIR)/api/*.cpp))
 
-# Default target builds the neural net binary (engine has no main of its own)
-all: nn
+MAIN_SRC := main.cpp
 
-run: run-nn
+# Headers are listed as prerequisites so editing only a .hpp still triggers a rebuild
+HEADERS := $(wildcard $(ENGINE_DIR)/*.hpp $(NN_DIR)/src/*.hpp $(NN_DIR)/api/*.hpp)
+
+.PHONY: all run test clean
+
+# Default target: build the training program from ./main.cpp
+all: $(TARGET)
+
+$(TARGET): $(MAIN_SRC) $(ENGINE_SRCS) $(NN_SRCS) $(HEADERS) | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(ENGINE_SRCS) $(NN_SRCS) $(MAIN_SRC) -o $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-# Usage: make test FILE=my_traversal_test
+# Engine tests, built against the engine only (no neural net code).
+# Usage: make test FILE=backprop_test
 test: | $(BUILD_DIR)
 ifndef FILE
-	$(error Usage: make test FILE=<name-without-.cpp>, e.g. make test FILE=my_traversal_test)
+	$(error Usage: make test FILE=<name-without-.cpp>, e.g. make test FILE=backprop_test)
 endif
-	$(CXX) $(CXXFLAGS) $(LIB_SRCS) $(TEST_DIR)/$(FILE).cpp -o $(BUILD_DIR)/$(FILE)_test
+	$(CXX) $(CXXFLAGS) $(ENGINE_SRCS) $(TEST_DIR)/$(FILE).cpp -o $(BUILD_DIR)/$(FILE)_test
 	./$(BUILD_DIR)/$(FILE)_test
-
-# Builds neural_net/main.cpp + neural_net/*.cpp (Neuron/Layer/MLP, etc.)
-# linked against the engine library.
-nn: | $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $(LIB_SRCS) $(NN_SRCS) -o $(BUILD_DIR)/$(NN_TARGET)
-
-run-nn: nn
-	./$(BUILD_DIR)/$(NN_TARGET)
 
 clean:
 	rm -rf $(BUILD_DIR)

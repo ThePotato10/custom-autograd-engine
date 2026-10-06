@@ -3,8 +3,8 @@
 #include<vector>
 
 #include "neuron.hpp"
-#include "../engine/owner.hpp"
-#include "../engine/value.hpp"
+#include "../../engine/owner.hpp"
+#include "../../engine/value.hpp"
 
 class Layer {
     std::vector<Neuron> neurons;
