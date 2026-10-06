@@ -7,10 +7,14 @@
 
 using namespace std;
 
-Layer::Layer(int numInputs, int numOutputs, Owner* owner) {
+Layer::Layer(int numInputs, int numOutputs, Owner* owner, bool nl) {
     for (int i = 0; i < numOutputs; ++i) {
-        neurons.emplace_back(numInputs, owner);
+        neurons.emplace_back(
+            Neuron(numInputs, owner, nl)
+        );
     }
+
+    nonlinear = nl;
 }
 
 vector<Value*> Layer::parameters() {

@@ -12,3 +12,11 @@ Value& Owner::create(double v, string n) {
 
     return *(store.back().get());
 }
+
+size_t Owner::size() const {
+    return store.size();
+}
+
+void Owner::truncate(size_t n) {
+    store.resize(n);
+}

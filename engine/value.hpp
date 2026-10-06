@@ -26,7 +26,7 @@ class Value {
         Value& operator*(Value& other);
         Value& operator-(Value& other);
         Value& operator/(Value& other);
-        Value& exp(double x);
+        Value& pow(double x);
 
         // Activation functions
         Value& relu();

@@ -93,7 +93,7 @@ void testBackward() {
         // instead of n*a^(n-1)).
         Owner store;
         Value& a = store.create(2.0, "a");
-        Value& c = a.exp(3.0);           
+        Value& c = a.pow(3.0);           
         c.backprop();
 
         bool ok = checkGradient("a", a, 3.0 * std::pow(2.0, 2.0), err);

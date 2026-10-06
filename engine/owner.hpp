@@ -12,5 +12,8 @@ class Value;
 class Owner {
     public:
         std::vector<std::unique_ptr<Value>> store;
+        
         Value& create(double v, std::string n);
+        size_t size() const;
+        void truncate(size_t n);
 };

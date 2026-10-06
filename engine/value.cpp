@@ -68,13 +68,13 @@ Value& Value::operator/(Value& other) {
     return *sum;
 }
 
-Value& Value::exp(double x) {
+Value& Value::pow(double x) {
     // This is just because I'm ocd about formatting bugs
     std::ostringstream oss;
     oss << std::setprecision(15) << x;
     std::string s = oss.str();
 
-    Value* sum = &globalOwner->create(pow(this->value, x), "(" + this->name + "^" + s + ")");
+    Value* sum = &globalOwner->create(std::pow(this->value, x), "(" + this->name + "^" + s + ")");
     sum->parents = vector<Value*>{this, &(globalOwner->create(x, s))};
     sum->operation = Operation::POWER;
 

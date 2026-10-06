@@ -8,9 +8,10 @@
 
 class Layer {
     std::vector<Neuron> neurons;
+    bool nonlinear;
 
     public:
-        Layer(int numInputs, int numOutputs, Owner* owner);
+        Layer(int numInputs, int numOutputs, Owner* owner, bool nl = true);
 
         std::vector<Value*> parameters();
         std::vector<Value*> forward(std::vector<Value*> inputs);

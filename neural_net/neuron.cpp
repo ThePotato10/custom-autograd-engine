@@ -1,5 +1,6 @@
 #include<vector>
 #include<random>
+#include<cassert>
 
 #include "neuron.hpp"
 
@@ -17,7 +18,7 @@ double generateRandomWeight() {
     return dist(gen);
 }
 
-Neuron::Neuron(int numInputs, Owner* owner) : globalOwner(owner) {
+Neuron::Neuron(int numInputs, Owner* owner, bool nl) : globalOwner(owner) {
     // numInputs is the number of neurons in the previous layer (or input for the first layer)
     // Each neuron stores the weights for the previous layer's activations within itself
     // Then the process for computing the out value of this neuron is multiplying it's stored weights by the inputs, and summing that
@@ -30,6 +31,8 @@ Neuron::Neuron(int numInputs, Owner* owner) : globalOwner(owner) {
     }
 
     bias = &owner->create(generateRandomWeight(), "generic_bias");
+
+    nonlinear = nl;
 }
 
 // Extracts the weights and bias from an individual neuron, base case for extracting all parameters from network
@@ -42,9 +45,9 @@ vector<Value*> Neuron::parameters() {
 }
 
 Value& Neuron::forward(vector<Value*> prev) {
-    // Propagate error if inputs don't match size of weights
-    // The affected parts of the network will zero out, indicating something went wrong
-    if (prev.size() != weights.size()) return globalOwner->create(0, "err");
+    // If this triggers, then the network is in some way misconfigured
+    // Meaning that we should trigger a crash before wasting compute on meaningless number-crunching
+    assert(prev.size() == weights.size());
 
     Value* out = bias;
 
@@ -58,5 +61,6 @@ Value& Neuron::forward(vector<Value*> prev) {
         out = &(*out + (*prev.at(i) * *weights.at(i)));
     }
 
-    return out->relu();
+    if (nonlinear) return out->relu();
+    else return *out;
 }

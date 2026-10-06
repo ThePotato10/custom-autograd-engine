@@ -13,9 +13,15 @@ Network::Network(int numInputs, vector<int> layerSizes, Owner* owner) {
     for (size_t i = 0; i < layerSizes.size(); ++i) {
         int currSize = layerSizes.at(i);
 
-        layers.emplace_back(
-            Layer(prev, currSize, owner)
-        );
+        if (i == layerSizes.size() - 1) {
+            layers.emplace_back(
+                Layer(prev, currSize, owner, false)
+            );
+        } else {
+            layers.emplace_back(
+                Layer(prev, currSize, owner, true)
+            );
+        }
 
         prev = currSize;
     }
@@ -42,7 +48,7 @@ vector<Value*> Network::forward(vector<Value*> entry) {
 vector<Value*> Network::parameters() {
     vector<Value*> params;
 
-    for (auto layer : layers) {
+    for (auto& layer : layers) {
         vector<Value*> layerParams = layer.parameters();
         params.insert(params.end(), layerParams.begin(), layerParams.end());
     }
