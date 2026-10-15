@@ -31,7 +31,7 @@ int main() {
 Then, call `Dataset trainingData = createDataset(inputs, outputs)`. This wraps your training data in a `Dataset` struct that the network can work with.
 
 To build the network, the API exposes a class and a factory function. The first is the `Owner()` class, which takes no parameters and creates a store that the network uses to manage pointers. The second is the `createNetwork(int numInputs, std::vector<int> layerSizes, Owner &globalOwner)` factory function. The first parameter of this function is the number of inputs the network receives. The second is a vector of integers representing the number of neurons in each layer (note that this includes the final output layer). The third is an `Owner` object. So, for example,
-```
+```c++
 int main() {
     ...
     Owner globalOwner = Owner();
@@ -42,7 +42,7 @@ int main() {
 creates a network that takes in 4 inputs, then has two hidden layers with 8 neurons each, and an output layer that has one nueron. 
 
 Once the network is created, use `train(Network& network, const Dataset& trainingData, Owner& globalOwner, int steps, double learningRate)` to train it. The first parameter of this function is the network to train, and the second is the dataset to train it with. The third is the `Owner` object that was previously created. The fourth parameter is the number of iterations to train the network for, and the fifth and last is the rate at which the network learns. 
-```
+```c++
 int main() {
     ...
     // In this example, the network trains for 2000 iterations at a learning rate of 0.05
@@ -62,7 +62,7 @@ In the following example, we read `predict(...)[0]` to get the activation of the
 
 Putting it all together:
 
-```
+```c++
 #include<vector>
 #include<iostream>
 
