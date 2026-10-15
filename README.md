@@ -18,7 +18,7 @@ I used 3B1B's fantastic [YouTube series](https://www.youtube.com/watch?v=aircAru
 
 Everything necessary to use this engine is exposed through `./neural_net/api/api.hpp`. The training data for the network should be formatted as two `std::vector<std::vector<double>>`s, where the first is a vector of samples, and each sample is a vector of doubles, and the second is a vector of outputs, and each output is a vector of doubles corresponding to the desired activations of the neurons in the output layer of the network.
 
-```
+```c++
 #include "./{engine}/neural_net/api/api.hpp"
 
 int main() {
